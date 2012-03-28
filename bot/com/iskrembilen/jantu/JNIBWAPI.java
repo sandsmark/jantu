@@ -47,8 +47,7 @@ public class JNIBWAPI {
 	// load the BWAPI client library
     static {
     	try {
-            System.loadLibrary("client-bridge");
-        	System.out.println("Load ExampelAI");
+            System.loadLibrary("client-bridge-" + System.getProperty("os.arch"));
         } catch (UnsatisfiedLinkError e) {
           System.err.println("Native code library failed to load.\n" + e);
         }
