@@ -30,8 +30,8 @@ public class ButtonEnvironmentPanel extends GuiPanelImpl {
 
     private static final Logger logger = Logger.getLogger(ButtonEnvironmentPanel.class.getCanonicalName());
     private StarcraftEnvironment environment;
-    private BufferedImage img = new BufferedImage(StarcraftEnvironment.ENVIRONMENT_WIDTH,
-            StarcraftEnvironment.ENVIRONMENT_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage img = new BufferedImage(100,
+            100, BufferedImage.TYPE_INT_RGB);
 
     /** Creates new form ButtonEnvironmentPanel */
     public ButtonEnvironmentPanel() {
@@ -144,7 +144,7 @@ public class ButtonEnvironmentPanel extends GuiPanelImpl {
     public void refresh() {
         img = (BufferedImage) environment.getModuleContent();
         this.imgPanel.repaint();
-        int lastPressedButton = environment.getLastPressedButton();
+        int lastPressedButton = 1;
         switch(lastPressedButton){
             case 1:
                 button1.setSelected(true);

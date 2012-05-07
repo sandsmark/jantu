@@ -745,6 +745,38 @@ JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_drawText
 
 /*
  * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    leaveGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_leaveGame
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    restartGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_restartGame
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    resumeGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_resumeGame
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    pauseGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_pauseGame
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
  * Method:    hasCreep
  * Signature: (II)Z
  */

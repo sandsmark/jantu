@@ -1621,3 +1621,48 @@ JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_setCommandOptimizatio
 {
 	Broodwar->setCommandOptimizationLevel(level);
 }
+
+/*****************************************************************************************************************/
+// Game state commands
+/*****************************************************************************************************************/
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    pauseGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_pauseGame (JNIEnv *, jobject)
+{
+    Broodwar->pauseGame();
+}
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    leaveGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_leaveGame (JNIEnv *, jobject)
+{
+    Broodwar->leaveGame();
+}
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    restartGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_restartGame (JNIEnv *, jobject)
+{
+    Broodwar->restartGame();
+}
+
+/*
+ * Class:     com_iskrembilen_jantu_JNIBWAPI
+ * Method:    resumeGame
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_iskrembilen_jantu_JNIBWAPI_resumeGame (JNIEnv *, jobject)
+{
+    Broodwar->resumeGame();
+}
+

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Java\jdk1.6.0_23\include&quot;;&quot;C:\BWAPI 3.7.2\include&quot;;&quot;C:\Program Files\Java\jdk1.6.0_23\include\win32&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\Java\jdk1.7.0_03\include&quot;;&quot;C:\BWAPI 3.7.2\include&quot;;&quot;C:\Program Files\Java\jdk1.7.0_03\include\win32&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIENTBRIDGE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Java\jdk1.6.0_23\include&quot;;&quot;C:\BWAPI 3.7.2\include&quot;;&quot;C:\Program Files\Java\jdk1.6.0_23\include\win32&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\Java\jdk1.7.0_03\include&quot;;&quot;C:\BWAPI 3.7.2\include&quot;;&quot;C:\Program Files\Java\jdk1.7.0_03\include\win32&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIENTBRIDGE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"

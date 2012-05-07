@@ -181,6 +181,12 @@ public class JNIBWAPI {
 	public native void drawText(int x, int y, String msg, boolean screenCoords);
 	public void drawText(Point a, String msg, boolean screenCoords){drawText(a.x,a.y,msg,screenCoords);}
 	
+	// Game state commands
+	public native void leaveGame();
+	public native void restartGame();
+	public native void resumeGame();
+	public native void pauseGame();
+	
 	// Extended Commands (Fobbah)
 	public native boolean hasCreep(int tx, int ty);
 	public native boolean canBuildHere(int unitID, int tx, int ty, int utypeID, boolean checkExplored);
