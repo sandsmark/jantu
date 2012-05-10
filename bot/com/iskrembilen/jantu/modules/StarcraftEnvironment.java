@@ -135,7 +135,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	 */
 	@Override
 	public Object getState(Map<String, ?> parameters) {
-		String what = (String)parameters.get("what");
+		String what = (String)parameters.get("mode");
 		if (what.equals("units")) {
 			Collection<Unit> units = new ArrayList<Unit>();
 			for(Unit u: bwapi.getMyUnits()) {

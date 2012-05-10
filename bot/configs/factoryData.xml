@@ -90,30 +90,12 @@
 		</link>
 	</links>
 	<tasks>
-		<task name="ColorDetector">
-			<class>myagent.featuredetectors.ColorFeatureDetector</class>
+		<task name="IdleWorkerDetector">
+			<class>com.iskrembilen.jantu.featuredetectors.IdleWorkerFeatureDetector</class>
 			<ticksperrun>5</ticksperrun>
 			<associatedmodule>SensoryMemory</associatedmodule>
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
-			<param name="color" type="int">-65536</param>
-			<param name="node" type="string">red</param>
-		</task>
-		<task name="ShapeDetector">
-			<class>myagent.featuredetectors.ShapeFeatureDetector</class>
-			<ticksperrun>5</ticksperrun>
-			<associatedmodule>SensoryMemory</associatedmodule>
-			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
-			<param name="area" type="int">40</param>
-			<param name="backgroundColor" type="int">-1</param>
-			<param name="node" type="string">square</param>
-		</task>
-                <task name="WhiteDetector">
-			<class>myagent.featuredetectors.WhiteFeatureDetector</class>
-			<ticksperrun>5</ticksperrun>
-			<associatedmodule>SensoryMemory</associatedmodule>
-			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
-			<param name="backgroundColor" type="int">-1</param>
-			<param name="node" type="string">empty</param>
+			<param name="node" type="string">idleWorker</param>
 		</task>
 		<task name="BasicAttentionCodelet">
 			<class>edu.memphis.ccrg.lida.attentioncodelets.BasicAttentionCodelet
