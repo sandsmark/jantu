@@ -90,7 +90,7 @@
 		</link>
 	</links>
 	<tasks>
-		<task name="IdleWorkerDetector">
+		<task name="IdleWorkerDetectorTask">
 			<class>com.iskrembilen.jantu.featuredetectors.IdleWorkerFeatureDetector</class>
 			<ticksperrun>5</ticksperrun>
 			<associatedmodule>SensoryMemory</associatedmodule>
