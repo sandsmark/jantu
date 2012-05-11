@@ -97,6 +97,13 @@
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
 			<param name="node" type="string">idleWorker</param>
 		</task>
+		<task name="LarvaDetectorTask">
+			<class>com.iskrembilen.jantu.featuredetectors.LarvaFeatureDetector</class>
+			<ticksperrun>5</ticksperrun>
+			<associatedmodule>SensoryMemory</associatedmodule>
+			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
+			<param name="node" type="string">larva</param>
+		</task>
 		<task name="BasicAttentionCodelet">
 			<class>edu.memphis.ccrg.lida.attentioncodelets.BasicAttentionCodelet
 			</class>
