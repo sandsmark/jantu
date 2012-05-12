@@ -104,6 +104,14 @@
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
 			<param name="node" type="string">larva</param>
 		</task>
+		<task name="UnsaturatedResourcesDetectorTask">
+			<class>com.iskrembilen.jantu.featuredetectors.UnsaturatedResourcesFeatureDetector</class>
+			<ticksperrun>5</ticksperrun>
+			<associatedmodule>SensoryMemory</associatedmodule>
+			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
+			<param name="node" type="string">unsaturatedResources</param>
+		</task>
+		
 		<task name="BasicAttentionCodelet">
 			<class>edu.memphis.ccrg.lida.attentioncodelets.BasicAttentionCodelet
 			</class>
