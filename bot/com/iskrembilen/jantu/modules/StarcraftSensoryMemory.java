@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.iskrembilen.jantu.Resources;
 import com.iskrembilen.jantu.model.Unit;
 import edu.memphis.ccrg.lida.framework.shared.ConcurrentHashSet;
 import edu.memphis.ccrg.lida.sensorymemory.SensoryMemoryImpl;
@@ -14,6 +15,7 @@ public class StarcraftSensoryMemory extends SensoryMemoryImpl {
 	private Set<Unit> buildingObjects = new ConcurrentHashSet<Unit>();
 	private Set<Unit> mineralObjects = new ConcurrentHashSet<Unit>();
 	private Set<Unit> geyserObjects = new ConcurrentHashSet<Unit>();
+	Resources resources = new Resources();
 	
  
     private Map<String,Object> sensorParam = new HashMap<String, Object>();
@@ -39,6 +41,9 @@ public class StarcraftSensoryMemory extends SensoryMemoryImpl {
     	sensorParam.put("mode","geysers");
     	geyserObjects.clear();
     	geyserObjects.addAll((Set<Unit>) environment.getState(sensorParam));
+    	
+    	sensorParam.put("mode", "resources");
+    	resources = (Resources) environment.getState(sensorParam);
     }
 
     @Override
@@ -52,6 +57,8 @@ public class StarcraftSensoryMemory extends SensoryMemoryImpl {
             return mineralObjects;
         } else if("geysers".equals(mode)){
             return geyserObjects;
+        } else if("resources".equals(mode)) {
+        	return resources;
         }
         return null;
     }

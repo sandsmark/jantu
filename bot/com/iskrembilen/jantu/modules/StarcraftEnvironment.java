@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import com.iskrembilen.jantu.BWAPIEventListener;
 import com.iskrembilen.jantu.JNIBWAPI;
+import com.iskrembilen.jantu.Resources;
 import com.iskrembilen.jantu.model.Action;
 import com.iskrembilen.jantu.model.Unit;
 import com.iskrembilen.jantu.types.UnitType;
@@ -166,6 +167,9 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 				}
 			}
 			return geysers;
+		} else if (what.equals("resources")) {
+			Resources resources = new Resources(bwapi.getSelf().getMinerals(), bwapi.getSelf().getGas());
+			return resources;
 		}
 		return null;
 	}

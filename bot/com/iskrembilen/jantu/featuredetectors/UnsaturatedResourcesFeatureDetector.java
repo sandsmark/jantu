@@ -35,7 +35,6 @@ public class UnsaturatedResourcesFeatureDetector extends BasicDetectionAlgorithm
     public double detect() {
     	//TODO: only works for 1 base for now
     	Set<Unit> minerals = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
-    	smParams.clear();
     	smParams.put("mode", "buildings");
     	Unit hive = null;
     	Set<Unit> buildings = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
@@ -53,7 +52,6 @@ public class UnsaturatedResourcesFeatureDetector extends BasicDetectionAlgorithm
     				mineralCount += 1;
     			}
     		}
-    		smParams.clear();
     		smParams.put("mode", "units");
     		Set<Unit> units = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
     		int workerCount = 0;
