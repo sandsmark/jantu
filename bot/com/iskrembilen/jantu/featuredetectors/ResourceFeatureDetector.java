@@ -23,7 +23,7 @@ public class ResourceFeatureDetector extends MultipleDetectionAlgorithm {
     @Override
     public void init() {
        super.init();
-       smParams.put("mode","all");
+       smParams.put("mode","resources");
     }
     
     private void doExcitate(PamLinkable linkable) {
@@ -35,6 +35,8 @@ public class ResourceFeatureDetector extends MultipleDetectionAlgorithm {
 		Resources resources = (Resources) sensoryMemory.getSensoryContent("", smParams);
 		if(resources.getMinerals() > 50) {
 			doExcitate(this.pamNodeMap.get("affordWorker"));
+		} else if(resources.getMinerals() > 100) {
+			doExcitate(this.pamNodeMap.get("affordSupply"));
 		}
 		
 	}

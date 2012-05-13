@@ -118,6 +118,13 @@
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
 			<param name="nodes" type="string">affordWorker,</param>
 		</task>
+		<task name="SupplyBlockDetectorTask">
+			<class>com.iskrembilen.jantu.featuredetectors.SupplyBlockFeatureDetector</class>
+			<ticksperrun>5</ticksperrun>
+			<associatedmodule>SensoryMemory</associatedmodule>
+			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
+			<param name="node" type="string">supplyBlock</param>
+		</task>
 		
 		<task name="BasicAttentionCodelet">
 			<class>edu.memphis.ccrg.lida.attentioncodelets.BasicAttentionCodelet
