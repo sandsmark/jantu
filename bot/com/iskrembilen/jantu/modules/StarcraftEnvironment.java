@@ -11,11 +11,11 @@
  */
 package com.iskrembilen.jantu.modules;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +23,6 @@ import com.iskrembilen.jantu.BWAPIEventListener;
 import com.iskrembilen.jantu.JNIBWAPI;
 import com.iskrembilen.jantu.Resources;
 import com.iskrembilen.jantu.Supply;
-import com.iskrembilen.jantu.model.Action;
 import com.iskrembilen.jantu.model.Unit;
 import com.iskrembilen.jantu.types.UnitType.UnitTypes;
 
@@ -41,7 +40,8 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
     private static final Logger logger = Logger.getLogger(StarcraftEnvironment.class.getCanonicalName());
     
     private final int MILLISECONDS_PER_TICK = 1;
-    private final int DEFAULT_TICKS_PER_RUN = 100;
+    private final int DEFAULT_TICKS_PER_RUN = 10;
+    private final int DEFAULT_FRAMES_PER_TICK = 10;
     private int ticksPerRun = DEFAULT_TICKS_PER_RUN;
 
     private boolean matchRunning = false;
@@ -49,6 +49,8 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
     private JNIBWAPI bwapi;
     
     private HashMap<Integer, Object> buildingTypes;
+    
+    private Semaphore runGameSemaphore;
     
     private class BWAPIThread extends Thread {
     	public void run() {
@@ -61,20 +63,10 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	private class EnvironmentBackgroundTask extends FrameworkTaskImpl{
 		public EnvironmentBackgroundTask(int ticksPerRun){
 			super(ticksPerRun);
-			System.out.println("horeneger");
 		}
 		@Override
 		protected void runThisFrameworkTask() {
-			/*System.out.println("resuming");
-			bwapi.resumeGame();
-			try {
-				Thread.sleep(MILLISECONDS_PER_TICK * ticksPerRun);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} finally {
-				System.out.println("pausing");
-				bwapi.pauseGame();
-			}*/
+			runGameSemaphore.release(DEFAULT_FRAMES_PER_TICK);
 		}		
 	}
     
@@ -83,6 +75,8 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
      */
     @Override
     public void init() {
+    	runGameSemaphore = new Semaphore(DEFAULT_FRAMES_PER_TICK);
+    	runGameSemaphore.drainPermits();
     	// BWAPI needs its own thread
     	BWAPIThread thread = new BWAPIThread();
     	thread.start();
@@ -219,7 +213,6 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	@Override
 	public void processAction(Object arg) {		
 		String action = (String)arg;
-		System.out.println(action);
 		if (action.equals("algorithm.mineMinerals")) {
 			Unit drone = null;
 			for (Unit unit : bwapi.getMyUnits()) {
@@ -240,8 +233,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 						break;
 					}
 				}
-			}                                       
-
+			}
 		} else if (action.equals("algorithm.buildWorker")) {
 			for (Unit larva : bwapi.getMyUnits()) {
 				if (larva.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
@@ -280,7 +272,6 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 		bwapi.setGameSpeed(0);
 		bwapi.loadMapData(true);
 		matchRunning = true;
-		//bwapi.pauseGame();
 	}
 
 	/**
@@ -288,7 +279,14 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	 * Called from BWAPI
 	 */
 	@Override
-	public void gameUpdate() {} // SANDSMARK DON'T CARE
+	public void gameUpdate() {
+		try {
+			runGameSemaphore.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void gameEnded() {
