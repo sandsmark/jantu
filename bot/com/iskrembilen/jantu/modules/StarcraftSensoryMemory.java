@@ -16,8 +16,8 @@ public class StarcraftSensoryMemory extends SensoryMemoryImpl {
 	private Set<Unit> buildingObjects = new ConcurrentHashSet<Unit>();
 	private Set<Unit> mineralObjects = new ConcurrentHashSet<Unit>();
 	private Set<Unit> geyserObjects = new ConcurrentHashSet<Unit>();
-	Resources resources = new Resources();
-	private Supply supply = new Supply();	
+	Resources resources;
+	private Supply supply;	
  
     private Map<String,Object> sensorParam = new HashMap<String, Object>();
 
@@ -27,6 +27,10 @@ public class StarcraftSensoryMemory extends SensoryMemoryImpl {
 
     @Override
     public void runSensors() {
+    	sensorParam.put("mode", "playing");
+    	if(!((Boolean)environment.getState(sensorParam)).booleanValue()) {
+    		return;
+    	}
     	sensorParam.put("mode","units");
     	unitObjects.clear();
     	unitObjects.addAll((Set<Unit>) environment.getState(sensorParam));

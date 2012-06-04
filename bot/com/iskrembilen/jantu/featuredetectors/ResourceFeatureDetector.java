@@ -33,6 +33,7 @@ public class ResourceFeatureDetector extends MultipleDetectionAlgorithm {
 	@Override
 	public void detectLinkables() {
 		Resources resources = (Resources) sensoryMemory.getSensoryContent("", smParams);
+		if(resources == null) return;
 		if(resources.getMinerals() > 50) {
 			doExcitate(this.pamNodeMap.get("affordWorker"));
 		} else if(resources.getMinerals() > 100) {

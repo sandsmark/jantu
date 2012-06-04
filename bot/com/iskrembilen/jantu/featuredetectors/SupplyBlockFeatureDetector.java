@@ -20,7 +20,7 @@ private Map<String, Object> smParams = new HashMap<String, Object>();
 	@Override
 	public double detect() {
 		Supply supply = (Supply) sensoryMemory.getSensoryContent("", smParams);
-		if(supply.getCurSupply() >= supply.getSupplyCap()) {
+		if(supply != null && supply.getCurSupply() >= supply.getSupplyCap()) {
 			return 1;
 		}
 		return 0;
