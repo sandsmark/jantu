@@ -116,7 +116,7 @@
 			<ticksperrun>5</ticksperrun>
 			<associatedmodule>SensoryMemory</associatedmodule>
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
-			<param name="nodes" type="string">affordWorker,</param>
+			<param name="nodes" type="string">affordWorker,affordSupply</param>
 		</task>
 		<task name="SupplyBlockDetectorTask">
 			<class>com.iskrembilen.jantu.featuredetectors.SupplyBlockFeatureDetector</class>
