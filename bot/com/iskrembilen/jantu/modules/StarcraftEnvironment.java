@@ -25,10 +25,10 @@ import com.iskrembilen.jantu.Resources;
 import com.iskrembilen.jantu.Supply;
 import com.iskrembilen.jantu.model.Action;
 import com.iskrembilen.jantu.model.Unit;
-import com.iskrembilen.jantu.types.UnitType;
 import com.iskrembilen.jantu.types.UnitType.UnitTypes;
 
 import edu.memphis.ccrg.lida.environment.EnvironmentImpl;
+import edu.memphis.ccrg.lida.framework.tasks.FrameworkTaskImpl;
 import edu.memphis.ccrg.lida.framework.tasks.TaskManager;
 
 /**
@@ -40,6 +40,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 
     private static final Logger logger = Logger.getLogger(StarcraftEnvironment.class.getCanonicalName());
     
+    private final int MILLISECONDS_PER_TICK = 1;
     private final int DEFAULT_TICKS_PER_RUN = 100;
     private int ticksPerRun = DEFAULT_TICKS_PER_RUN;
 
@@ -56,14 +57,41 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
     	}
     }
     
+	@SuppressWarnings("serial")
+	private class EnvironmentBackgroundTask extends FrameworkTaskImpl{
+		public EnvironmentBackgroundTask(int ticksPerRun){
+			super(ticksPerRun);
+			System.out.println("horeneger");
+		}
+		@Override
+		protected void runThisFrameworkTask() {
+			/*System.out.println("resuming");
+			bwapi.resumeGame();
+			try {
+				Thread.sleep(MILLISECONDS_PER_TICK * ticksPerRun);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				System.out.println("pausing");
+				bwapi.pauseGame();
+			}*/
+		}		
+	}
+    
     /**
      * Called by LIDA, start the BWAPI thread.
      */
     @Override
     public void init() {
+    	// BWAPI needs its own thread
     	BWAPIThread thread = new BWAPIThread();
     	thread.start();
     	
+    	// We need a separate task/thread just for scheduling runs of the game 
+    	taskSpawner.addTask(new EnvironmentBackgroundTask(ticksPerRun));
+    	
+    	
+    	// We need to be able to separate out buildings from the rest of the units
     	buildingTypes = new HashMap<Integer, Object>();
     	
     	// Terran buildings
@@ -189,26 +217,44 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	 * Called from LIDA
 	 */
 	@Override
-	public void processAction(Object arg) {
+	public void processAction(Object arg) {		
 		String action = (String)arg;
-		// TODO: DO SHIT
-//		case Attack:
-//			bwapi.attack(action.unit.getID(), action.x, action.y);
-//			break;
-//		case Build:
-//			bwapi.build(action.unit.getID(), action.x, action.y, action.buildingType);
-//			break;
-//		case Mine:
-//			bwapi.rightClick(action.unit.getID(), action.x, action.y);
-//			break;
-//		case Morph:
-//			bwapi.morph(action.unit.getID(), action.targetType);
-//			break;
-//		case Move:
-//			bwapi.move(action.unit.getID(), action.x, action.y);
-//			break;
-//		default:
-//		}
+		System.out.println(action);
+		if (action.equals("algorithm.mineMinerals")) {
+			Unit drone = null;
+			for (Unit unit : bwapi.getMyUnits()) {
+				if (unit.getTypeID() == UnitTypes.Zerg_Drone.ordinal() && unit.isIdle()) {
+					drone = unit;
+					break;
+				}
+			}
+			// Didn't find drone
+			if (drone == null)
+				return;
+			for (Unit minerals : bwapi.getNeutralUnits()) {
+				if (minerals.getTypeID() == UnitTypes.Resource_Mineral_Field.ordinal()) {
+					double distance = Math.sqrt(Math.pow(minerals.getX() - drone.getX(), 2) + Math.pow(minerals.getY() - drone.getY(), 2));
+
+					if (distance < 300) {
+						bwapi.rightClick(drone.getID(), minerals.getID());
+						break;
+					}
+				}
+			}                                       
+
+		} else if (action.equals("algorithm.buildWorker")) {
+			for (Unit larva : bwapi.getMyUnits()) {
+				if (larva.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
+					bwapi.morph(larva.getID(), UnitTypes.Zerg_Drone.ordinal());
+				}
+			}                                                                       
+		} else if (action.equals("algorithm.buildSupply")) {
+			for (Unit larva : bwapi.getMyUnits()) {
+				if (larva.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
+					bwapi.morph(larva.getID(), UnitTypes.Zerg_Overlord.ordinal());
+				}
+			}                                                                       
+		}
 	}
 
 	/**
@@ -226,6 +272,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	 */
 	@Override
 	public void gameStarted() {
+		
 		logger.log(Level.INFO, "Game started", TaskManager.getCurrentTick());
 		
 		bwapi.enableUserInput();
@@ -233,6 +280,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 		bwapi.setGameSpeed(0);
 		bwapi.loadMapData(true);
 		matchRunning = true;
+		//bwapi.pauseGame();
 	}
 
 	/**
