@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.iskrembilen.jantu.model.BaseLocation;
 import com.iskrembilen.jantu.model.ChokePoint;
@@ -17,6 +19,7 @@ import com.iskrembilen.jantu.model.Map;
 import com.iskrembilen.jantu.model.Player;
 import com.iskrembilen.jantu.model.Region;
 import com.iskrembilen.jantu.model.Unit;
+import com.iskrembilen.jantu.modules.StarcraftEnvironment;
 import com.iskrembilen.jantu.types.BulletType;
 import com.iskrembilen.jantu.types.DamageType;
 import com.iskrembilen.jantu.types.ExplosionType;
@@ -43,7 +46,8 @@ import com.iskrembilen.jantu.types.WeaponType;
  *  Unit: http://code.google.com/p/bwapi/wiki/Unit
  */
 public class JNIBWAPI {
-	  
+    private static final Logger logger = Logger.getLogger(JNIBWAPI.class.getCanonicalName());
+
 	// load the BWAPI client library
     static {
     	try {
@@ -576,12 +580,7 @@ public class JNIBWAPI {
 	 * Utility function for printing to the java console from C++.
 	 */
 	public void javaPrint(String msg) {
-		try {
-			System.out.println("Bridge: " + msg);
-		}
-		catch (Error e) {
-			e.printStackTrace();
-		}			
+		logger.log(Level.INFO, msg);
 	}
 
 	/**
