@@ -1,3 +1,78 @@
-01.06.2012 18:28:40 3120 Logging started
-01.06.2012 18:28:40 3120 Already running
-01.06.2012 18:28:40 3120 Logging ended
+04.06.2012 15:05:15 604 Logging started
+04.06.2012 15:05:15 604 Already running
+04.06.2012 15:05:15 604 Logging ended
+04.06.2012 15:05:16 836 Startbutton
+04.06.2012 15:05:16 836 Starting Game Starcraft 1.16.1 C:\Program Files (x86)\StarCraft\\StarCraft.exe
+04.06.2012 15:05:16 836 BWAPI Injector (1.16.1) RELEASE Version  Compatible
+04.06.2012 15:05:16 836 W-MODE 1.02 Version 1.0.2 Compatible
+04.06.2012 15:05:16 836 Obtained DebugPrivilege
+04.06.2012 15:05:16 836 CreateProcess
+04.06.2012 15:05:16 836 Call ScSuspended for all active Plugins
+04.06.2012 15:05:16 836 ApplyPatchSuspended for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:05:18 836 ApplyPatchSuspended for W-MODE 1.02
+04.06.2012 15:05:18 836 ResumeThread
+04.06.2012 15:05:18 836 WaitForInputIdle
+04.06.2012 15:05:18 836 Call ScWindowCreated for all active Plugins
+04.06.2012 15:05:18 836 ApplyPatch for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:05:18 836 ApplyPatch for W-MODE 1.02
+04.06.2012 15:05:18 836 Starting Starcraft completed
+04.06.2012 15:20:31 836 Startbutton
+04.06.2012 15:20:31 836 Starting Game Starcraft 1.16.1 C:\Program Files (x86)\StarCraft\\StarCraft.exe
+04.06.2012 15:20:31 836 BWAPI Injector (1.16.1) RELEASE Version  Compatible
+04.06.2012 15:20:31 836 W-MODE 1.02 Version 1.0.2 Compatible
+04.06.2012 15:20:31 836 Obtained DebugPrivilege
+04.06.2012 15:20:31 836 CreateProcess
+04.06.2012 15:20:31 836 Call ScSuspended for all active Plugins
+04.06.2012 15:20:31 836 ApplyPatchSuspended for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:20:33 836 ApplyPatchSuspended for W-MODE 1.02
+04.06.2012 15:20:33 836 ResumeThread
+04.06.2012 15:20:33 836 WaitForInputIdle
+04.06.2012 15:20:33 836 Call ScWindowCreated for all active Plugins
+04.06.2012 15:20:33 836 ApplyPatch for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:20:33 836 ApplyPatch for W-MODE 1.02
+04.06.2012 15:20:33 836 Starting Starcraft completed
+04.06.2012 15:26:43 836 Startbutton
+04.06.2012 15:26:43 836 Starting Game Starcraft 1.16.1 C:\Program Files (x86)\StarCraft\\StarCraft.exe
+04.06.2012 15:26:43 836 BWAPI Injector (1.16.1) RELEASE Version  Compatible
+04.06.2012 15:26:43 836 W-MODE 1.02 Version 1.0.2 Compatible
+04.06.2012 15:26:43 836 Obtained DebugPrivilege
+04.06.2012 15:26:43 836 CreateProcess
+04.06.2012 15:26:43 836 Call ScSuspended for all active Plugins
+04.06.2012 15:26:43 836 ApplyPatchSuspended for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:26:44 836 ApplyPatchSuspended for W-MODE 1.02
+04.06.2012 15:26:44 836 ResumeThread
+04.06.2012 15:26:44 836 WaitForInputIdle
+04.06.2012 15:26:45 836 Call ScWindowCreated for all active Plugins
+04.06.2012 15:26:45 836 ApplyPatch for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:26:45 836 ApplyPatch for W-MODE 1.02
+04.06.2012 15:26:45 836 Starting Starcraft completed
+04.06.2012 15:34:09 836 Startbutton
+04.06.2012 15:34:09 836 Starting Game Starcraft 1.16.1 C:\Program Files (x86)\StarCraft\\StarCraft.exe
+04.06.2012 15:34:09 836 BWAPI Injector (1.16.1) RELEASE Version  Compatible
+04.06.2012 15:34:09 836 W-MODE 1.02 Version 1.0.2 Compatible
+04.06.2012 15:34:09 836 Obtained DebugPrivilege
+04.06.2012 15:34:09 836 CreateProcess
+04.06.2012 15:34:09 836 Call ScSuspended for all active Plugins
+04.06.2012 15:34:09 836 ApplyPatchSuspended for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:34:11 836 ApplyPatchSuspended for W-MODE 1.02
+04.06.2012 15:34:11 836 ResumeThread
+04.06.2012 15:34:11 836 WaitForInputIdle
+04.06.2012 15:34:11 836 Call ScWindowCreated for all active Plugins
+04.06.2012 15:34:11 836 ApplyPatch for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:34:11 836 ApplyPatch for W-MODE 1.02
+04.06.2012 15:34:11 836 Starting Starcraft completed
+04.06.2012 15:40:19 836 Startbutton
+04.06.2012 15:40:19 836 Starting Game Starcraft 1.16.1 C:\Program Files (x86)\StarCraft\\StarCraft.exe
+04.06.2012 15:40:19 836 BWAPI Injector (1.16.1) RELEASE Version  Compatible
+04.06.2012 15:40:19 836 W-MODE 1.02 Version 1.0.2 Compatible
+04.06.2012 15:40:19 836 Obtained DebugPrivilege
+04.06.2012 15:40:19 836 CreateProcess
+04.06.2012 15:40:19 836 Call ScSuspended for all active Plugins
+04.06.2012 15:40:19 836 ApplyPatchSuspended for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:40:20 836 ApplyPatchSuspended for W-MODE 1.02
+04.06.2012 15:40:20 836 ResumeThread
+04.06.2012 15:40:20 836 WaitForInputIdle
+04.06.2012 15:40:20 836 Call ScWindowCreated for all active Plugins
+04.06.2012 15:40:20 836 ApplyPatch for BWAPI Injector (1.16.1) RELEASE
+04.06.2012 15:40:20 836 ApplyPatch for W-MODE 1.02
+04.06.2012 15:40:20 836 Starting Starcraft completed

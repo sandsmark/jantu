@@ -30,6 +30,9 @@ public class StarcraftSensoryMemory extends SensoryMemoryImpl {
     	sensorParam.put("mode", "playing");
     	if(!((Boolean)environment.getState(sensorParam)).booleanValue()) {
     		return;
+    	} else {
+    		supply = new Supply();
+    		resources = new Resources();
     	}
     	sensorParam.put("mode","units");
     	unitObjects.clear();

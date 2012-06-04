@@ -14,6 +14,7 @@ package com.iskrembilen.jantu.modules;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,22 +142,24 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 		if(what.equals("playing")) {
 			return matchRunning;
 		}
-		if (what.equals("units")) {
-			Collection<Unit> units = new ArrayList<Unit>();
+		else if (what.equals("units")) {
+			Collection<Unit> units = new HashSet<Unit>();
 			for(Unit u: bwapi.getMyUnits()) {
 				if (!buildingTypes.containsKey(u.getTypeID())) {
 					units.add(u);
 				}
 			}
+			return units;
 		} else if (what.equals("buildings")) {
-			Collection<Unit> buildings = new ArrayList<Unit>();
+			Collection<Unit> buildings = new HashSet<Unit>();
 			for(Unit u: bwapi.getMyUnits()) {
 				if (buildingTypes.containsKey(u.getTypeID())) {
 					buildings.add(u);
 				}
 			}
+			return buildings;
 		} else if (what.equals("minerals")) {
-			Collection<Unit> minerals = new ArrayList<Unit>();
+			Collection<Unit> minerals = new HashSet<Unit>();
 			for(Unit u: bwapi.getNeutralUnits()) {
 				if (u.getTypeID() == UnitTypes.Resource_Mineral_Field.ordinal()) {
 					minerals.add(u);
@@ -164,7 +167,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 			}
 			return minerals;
 		} else if (what.equals("geysers")) {
-			Collection<Unit> geysers = new ArrayList<Unit>();
+			Collection<Unit> geysers = new HashSet<Unit>();
 			for(Unit u: bwapi.getNeutralUnits()) {
 				if (u.getTypeID() == UnitTypes.Resource_Vespene_Geyser.ordinal()) {
 					geysers.add(u);
@@ -187,25 +190,25 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	 */
 	@Override
 	public void processAction(Object arg) {
-		Action action = (Action)arg;
-		switch (action.type) {
-		case Attack:
-			bwapi.attack(action.unit.getID(), action.x, action.y);
-			break;
-		case Build:
-			bwapi.build(action.unit.getID(), action.x, action.y, action.buildingType);
-			break;
-		case Mine:
-			bwapi.rightClick(action.unit.getID(), action.x, action.y);
-			break;
-		case Morph:
-			bwapi.morph(action.unit.getID(), action.targetType);
-			break;
-		case Move:
-			bwapi.move(action.unit.getID(), action.x, action.y);
-			break;
-		default:
-		}
+		String action = (String)arg;
+		// TODO: DO SHIT
+//		case Attack:
+//			bwapi.attack(action.unit.getID(), action.x, action.y);
+//			break;
+//		case Build:
+//			bwapi.build(action.unit.getID(), action.x, action.y, action.buildingType);
+//			break;
+//		case Mine:
+//			bwapi.rightClick(action.unit.getID(), action.x, action.y);
+//			break;
+//		case Morph:
+//			bwapi.morph(action.unit.getID(), action.targetType);
+//			break;
+//		case Move:
+//			bwapi.move(action.unit.getID(), action.x, action.y);
+//			break;
+//		default:
+//		}
 	}
 
 	/**
