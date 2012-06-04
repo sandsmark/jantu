@@ -26,8 +26,8 @@ public class ResourceFeatureDetector extends MultipleDetectionAlgorithm {
        smParams.put("mode","resources");
     }
     
-    private void doExcitate(PamLinkable linkable) {
-    	pam.receiveExcitation(linkable, 1);
+    private void doExcitate(PamLinkable linkable, double value) {
+    	pam.receiveExcitation(linkable, value);
     }
 
 	@Override
@@ -35,11 +35,14 @@ public class ResourceFeatureDetector extends MultipleDetectionAlgorithm {
 		Resources resources = (Resources) sensoryMemory.getSensoryContent("", smParams);
 		if(resources == null) return;
 		if(resources.getMinerals() > 50) {
-			doExcitate(this.pamNodeMap.get("affordWorker"));
-		} else if(resources.getMinerals() > 100) {
-			doExcitate(this.pamNodeMap.get("affordSupply"));
+			doExcitate(this.pamNodeMap.get("affordWorker"), 0.5);
 		}
-		
+		if(resources.getMinerals() > 100) {
+			doExcitate(this.pamNodeMap.get("affordSupply"), 0.5);
+		}
+		if(resources.getMinerals() > 150) {
+			doExcitate(pamNodeMap.get("affordGateway"), 0.5);
+		}
 	}
 
 }

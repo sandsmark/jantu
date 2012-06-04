@@ -97,13 +97,6 @@
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
 			<param name="node" type="string">idleWorker</param>
 		</task>
-		<task name="LarvaDetectorTask">
-			<class>com.iskrembilen.jantu.featuredetectors.LarvaFeatureDetector</class>
-			<ticksperrun>5</ticksperrun>
-			<associatedmodule>SensoryMemory</associatedmodule>
-			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
-			<param name="node" type="string">larva</param>
-		</task>
 		<task name="UnsaturatedResourcesDetectorTask">
 			<class>com.iskrembilen.jantu.featuredetectors.UnsaturatedResourcesFeatureDetector</class>
 			<ticksperrun>5</ticksperrun>
@@ -116,7 +109,6 @@
 			<ticksperrun>5</ticksperrun>
 			<associatedmodule>SensoryMemory</associatedmodule>
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
-			<param name="nodes" type="string">affordWorker,affordSupply</param>
 		</task>
 		<task name="SupplyBlockDetectorTask">
 			<class>com.iskrembilen.jantu.featuredetectors.SupplyBlockFeatureDetector</class>

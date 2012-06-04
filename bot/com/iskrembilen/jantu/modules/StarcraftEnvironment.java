@@ -41,7 +41,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
     
     private final int MILLISECONDS_PER_TICK = 1;
     private final int DEFAULT_TICKS_PER_RUN = 10;
-    private final int DEFAULT_FRAMES_PER_TICK = 10;
+    private final int DEFAULT_FRAMES_PER_TICK = 1;
     private int ticksPerRun = DEFAULT_TICKS_PER_RUN;
 
     private boolean matchRunning = false;
@@ -216,7 +216,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 		if (action.equals("algorithm.mineMinerals")) {
 			Unit drone = null;
 			for (Unit unit : bwapi.getMyUnits()) {
-				if (unit.getTypeID() == UnitTypes.Zerg_Drone.ordinal() && unit.isIdle()) {
+				if (unit.getTypeID() == UnitTypes.Protoss_Probe.ordinal() && unit.isIdle()) {
 					drone = unit;
 					break;
 				}
@@ -236,15 +236,15 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 			}
 		} else if (action.equals("algorithm.buildWorker")) {
 			for (Unit larva : bwapi.getMyUnits()) {
-				if (larva.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
-					bwapi.morph(larva.getID(), UnitTypes.Zerg_Drone.ordinal());
+			for(Unit building : bwapi.getMyUnits())
+				if (building.getTypeID() == UnitTypes.Protoss_Nexus.ordinal()) {
+					//HOOOOW
+					
 				}
 			}                                                                       
 		} else if (action.equals("algorithm.buildSupply")) {
 			for (Unit larva : bwapi.getMyUnits()) {
-				if (larva.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
-					bwapi.morph(larva.getID(), UnitTypes.Zerg_Overlord.ordinal());
-				}
+				//HOOOOW
 			}                                                                       
 		}
 	}
