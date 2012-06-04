@@ -28,18 +28,18 @@ public class UnsaturatedResourcesFeatureDetector extends BasicDetectionAlgorithm
     @Override
     public void init() {
        super.init();
-       smParams.put("mode", "minerals");
     }
 
     @Override
     public double detect() {
     	//TODO: only works for 1 base for now
+    	smParams.put("mode", "minerals");
     	Set<Unit> minerals = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
     	smParams.put("mode", "buildings");
     	Unit hive = null;
     	Set<Unit> buildings = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
     	for(Unit building : buildings) {
-    		if(building.getTypeID() == UnitTypes.Zerg_Hive.ordinal() || building.getTypeID() == UnitTypes.Zerg_Lair.ordinal()) {
+    		if(building.getTypeID() == UnitTypes.Zerg_Hatchery.ordinal() || building.getTypeID() == UnitTypes.Zerg_Hive.ordinal() || building.getTypeID() == UnitTypes.Zerg_Lair.ordinal()) {
     			hive = building;
     		}
     			
@@ -60,7 +60,7 @@ public class UnsaturatedResourcesFeatureDetector extends BasicDetectionAlgorithm
     				workerCount += 1;
     			}
     		}
-    		if(workerCount > (mineralCount *3)) return 1;
+    		if(workerCount < (mineralCount *3)) return 1;
     	}
     	
 		return 0;
