@@ -17,32 +17,23 @@ import com.iskrembilen.jantu.Resources;
  *
  * @author sandsmark
  */
-public class ResourceFeatureDetector extends MultipleDetectionAlgorithm {
+public class ResourceFeatureDetector extends BasicDetectionAlgorithm {
     private Map<String, Object> smParams = new HashMap<String, Object>();
+    int resourceCost;
  
     @Override
     public void init() {
        super.init();
        smParams.put("mode","resources");
-    }
-    
-    private void doExcitate(PamLinkable linkable, double value) {
-    	pam.receiveExcitation(linkable, value);
+       resourceCost = (Integer) getParam("cost", Integer.MAX_VALUE);
     }
 
 	@Override
-	public void detectLinkables() {
+	public double detect() {
 		Resources resources = (Resources) sensoryMemory.getSensoryContent("", smParams);
-		if(resources == null) return;
-		if(resources.getMinerals() > 50) {
-			doExcitate(this.pamNodeMap.get("affordWorker"), 0.5);
+		if(resources != null && resources.getMinerals() > resourceCost) {
+			return 0.5;
 		}
-		if(resources.getMinerals() > 100) {
-			doExcitate(this.pamNodeMap.get("affordSupply"), 0.5);
-		}
-		if(resources.getMinerals() > 150) {
-			doExcitate(pamNodeMap.get("affordGateway"), 0.5);
-		}
+		return 0;
 	}
-
 }
