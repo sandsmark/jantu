@@ -11,18 +11,26 @@
  */
 package com.iskrembilen.jantu.modules;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import sun.swing.SwingUtilities2.Section;
+
 import com.iskrembilen.jantu.BWAPIEventListener;
 import com.iskrembilen.jantu.JNIBWAPI;
 import com.iskrembilen.jantu.Resources;
 import com.iskrembilen.jantu.Supply;
+import com.iskrembilen.jantu.model.ChokePoint;
+import com.iskrembilen.jantu.model.Region;
 import com.iskrembilen.jantu.model.Unit;
 import com.iskrembilen.jantu.types.UnitType;
 import com.iskrembilen.jantu.types.UnitType.UnitTypes;
@@ -42,6 +50,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 
     private static final Logger logger = Logger.getLogger(StarcraftEnvironment.class.getCanonicalName());
     
+    private final int MINIMAP_SCALE = 3;
     private final int MILLISECONDS_PER_TICK = 1;
     private final int DEFAULT_TICKS_PER_RUN = 10;
     private final int DEFAULT_FRAMES_PER_TICK = 1;
@@ -284,6 +293,55 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	public void resetState() {
 		bwapi.restartGame();
 	}
+	
+	/**
+	 * Called from the GUI
+	 */
+	@Override
+	public Object getModuleContent(Object... params){
+		if (!matchRunning) {
+			return new BufferedImage(10, 10, BufferedImage.TYPE_4BYTE_ABGR);
+		}
+
+		int height = bwapi.getMap().getHeight() * MINIMAP_SCALE;
+		int width = bwapi.getMap().getWidth() * MINIMAP_SCALE;
+		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2d = img.createGraphics();
+		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, width, height);
+
+		g2d.setColor(Color.blue);
+		for (Unit unit: bwapi.getMyUnits()) {
+			g2d.drawRect(unit.getX() * MINIMAP_SCALE/32, unit.getY() * MINIMAP_SCALE/32, 1, 1);
+		}
+		g2d.setColor(Color.red);
+		for (Unit unit: bwapi.getEnemyUnits()) {
+			g2d.drawRect(unit.getX() * MINIMAP_SCALE/32, unit.getY() * MINIMAP_SCALE/32, 1, 1);
+		}
+		g2d.setColor(Color.green);
+		for (Unit unit: bwapi.getNeutralUnits()) {
+			g2d.drawRect(unit.getX() * MINIMAP_SCALE/32, unit.getY() * MINIMAP_SCALE/32, 1, 1);
+		}
+		
+		g2d.setColor(Color.gray);
+		for(Region r: bwapi.getMap().getRegions()) {
+			int coordinates[] = r.getCoordinates();
+			for (int i=2; i<coordinates.length/2; i+=2) {
+				g2d.drawLine(coordinates[i-2]*MINIMAP_SCALE/32, coordinates[i-1]*MINIMAP_SCALE/32, coordinates[i]*MINIMAP_SCALE/32, coordinates[i+1]*MINIMAP_SCALE/32);
+			}
+		}
+
+		g2d.setColor(Color.yellow);
+		for(ChokePoint c: bwapi.getMap().getChokePoints()) {
+			int r = (int) c.getRadius() * MINIMAP_SCALE / 32;
+			int x = c.getCenterX() * MINIMAP_SCALE / 32 - r/2;
+			int y = c.getCenterY() * MINIMAP_SCALE / 32 - r/2;
+			g2d.drawOval(x, y, r, r);
+		}
+
+		return img;
+	}
+
 
 	/**
 	 * Called when the game starts

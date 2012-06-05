@@ -27,28 +27,32 @@ F4::
 	ifWinExist Chaoslauncher
 	{
 		WinActivate
+		Sleep 200
 		Send {Click 60, 360}
 		WinWait Brood War
-		WinActivate Brood War
-		Sleep 2000
-		Send {Click 200, 300}
-		Send {Click 370, 300}
-		Sleep 1000
-		Send {Click 90, 205}
-		Send {Click 520, 420}
-		Sleep 500
-		Send {Click 520, 420}
-		Sleep 200
-		Send {Click 130, 370}
-		Sleep 500
-		Send {Click 180, 245}
-		Send {Click 520, 420}
-		Send {Click 420, 90}
-		Sleep 500
-		SendEvent {Click 140, 90, down}{Click 140, 135, up}
-		Sleep 50
-		SendEvent {Click 270, 70, down}{Click 270, 90, up}
-		Send {Click 520, 420}	
+		IfWinExist Brood War
+		{
+			WinActivate Brood War
+			Sleep 2000
+			Send {Click 200, 300}
+			Send {Click 370, 300}
+			Sleep 1000
+			Send {Click 90, 205}
+			Send {Click 520, 420}
+			Sleep 200
+			Send {Click 520, 420}
+			Sleep 200
+			Send {Click 130, 370}
+			Sleep 200
+			Send {Click 180, 245}
+			Send {Click 520, 420}
+			Send {Click 420, 90}
+			Sleep 500
+			SendEvent {Click 140, 90, down}{Click 140, 135, up}
+			Sleep 50
+			SendEvent {Click 270, 70, down}{Click 270, 122, up}
+			Send {Click 520, 420}	
+		}
 	}
 	else
 	{
