@@ -24,7 +24,10 @@ import com.iskrembilen.jantu.JNIBWAPI;
 import com.iskrembilen.jantu.Resources;
 import com.iskrembilen.jantu.Supply;
 import com.iskrembilen.jantu.model.Unit;
+import com.iskrembilen.jantu.types.UnitType;
 import com.iskrembilen.jantu.types.UnitType.UnitTypes;
+import com.iskrembilen.jantu.util.BuildingPlacer;
+import com.iskrembilen.jantu.util.TilePosition;
 
 import edu.memphis.ccrg.lida.environment.EnvironmentImpl;
 import edu.memphis.ccrg.lida.framework.tasks.FrameworkTaskImpl;
@@ -47,6 +50,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
     private boolean matchRunning = false;
 
     private JNIBWAPI bwapi;
+    BuildingPlacer buildingPlacer;
     
     private HashMap<Integer, Object> buildingTypes;
     
@@ -228,7 +232,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 				if (minerals.getTypeID() == UnitTypes.Resource_Mineral_Field.ordinal()) {
 					double distance = Math.sqrt(Math.pow(minerals.getX() - drone.getX(), 2) + Math.pow(minerals.getY() - drone.getY(), 2));
 
-					if (distance < 300) {
+					if (distance < 400) {
 						bwapi.rightClick(drone.getID(), minerals.getID());
 						break;
 					}
@@ -238,15 +242,38 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 			for (Unit larva : bwapi.getMyUnits()) {
 			for(Unit building : bwapi.getMyUnits())
 				if (building.getTypeID() == UnitTypes.Protoss_Nexus.ordinal()) {
-					//HOOOOW
-					
+					bwapi.train(building.getID(), UnitTypes.Protoss_Probe.ordinal());
+					break;
 				}
 			}                                                                       
 		} else if (action.equals("algorithm.buildSupply")) {
-			for (Unit larva : bwapi.getMyUnits()) {
-				//HOOOOW
-			}                                                                       
+			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Pylon);
+			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Pylon.ordinal());
+		} else if (action.equals("algorithm.buildGateway")) {
+			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Gateway);
+			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Gateway.ordinal());
+		} else if (action.equals("algorithm.buildCybercore")) {
+			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Cybernetics_Core);
+			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Cybernetics_Core.ordinal());
 		}
+	}
+	
+	private Unit getProbeToBuild() {
+		for(Unit unit : bwapi.getMyUnits()) {
+			if(unit.getTypeID() == UnitTypes.Protoss_Probe.ordinal()) {
+				return unit;
+			}
+		}
+		return null;
+	}
+	
+	private TilePosition findPlaceToBuild(UnitTypes unit) {
+		for(Unit building : bwapi.getMyUnits()) {
+			if (building.getTypeID() == UnitTypes.Protoss_Nexus.ordinal()) {
+				return buildingPlacer.getBuildLocationNear(new TilePosition(building.getTileX(), building.getTileY()), bwapi.getUnitType(unit.ordinal()));
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -271,6 +298,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 		bwapi.enablePerfectInformation();
 		bwapi.setGameSpeed(0);
 		bwapi.loadMapData(true);
+		buildingPlacer = new BuildingPlacer(bwapi);
 		matchRunning = true;
 	}
 

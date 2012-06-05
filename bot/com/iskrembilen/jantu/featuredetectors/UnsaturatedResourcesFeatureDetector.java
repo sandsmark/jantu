@@ -39,7 +39,7 @@ public class UnsaturatedResourcesFeatureDetector extends BasicDetectionAlgorithm
     	Unit hive = null;
     	Set<Unit> buildings = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
     	for(Unit building : buildings) {
-    		if(building.getTypeID() == UnitTypes.Zerg_Hatchery.ordinal() || building.getTypeID() == UnitTypes.Zerg_Hive.ordinal() || building.getTypeID() == UnitTypes.Zerg_Lair.ordinal()) {
+    		if(building.getTypeID() == UnitTypes.Protoss_Nexus.ordinal() || building.getTypeID() == UnitTypes.Zerg_Hive.ordinal() || building.getTypeID() == UnitTypes.Zerg_Lair.ordinal()) {
     			hive = building;
     		}
     			
@@ -56,7 +56,7 @@ public class UnsaturatedResourcesFeatureDetector extends BasicDetectionAlgorithm
     		Set<Unit> units = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
     		int workerCount = 0;
     		for(Unit unit : units) {
-    			if(unit.getTypeID() == UnitTypes.Zerg_Drone.ordinal()) {
+    			if(unit.getTypeID() == UnitTypes.Protoss_Probe.ordinal()) {
     				workerCount += 1;
     			}
     		}
