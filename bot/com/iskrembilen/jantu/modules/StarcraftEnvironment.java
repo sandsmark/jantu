@@ -17,13 +17,10 @@ import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import sun.swing.SwingUtilities2.Section;
 
 import com.iskrembilen.jantu.BWAPIEventListener;
 import com.iskrembilen.jantu.JNIBWAPI;
@@ -64,6 +61,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
     private HashMap<Integer, Object> buildingTypes;
     
     private Semaphore runGameSemaphore;
+    private BufferedImage bgImage;
     
     private class BWAPIThread extends Thread {
     	public void run() {
@@ -248,32 +246,34 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 				}
 			}
 		} else if (action.equals("algorithm.buildWorker")) {
-			for (Unit larva : bwapi.getMyUnits()) {
-			for(Unit building : bwapi.getMyUnits())
-				if (building.getTypeID() == UnitTypes.Protoss_Nexus.ordinal()) {
-					bwapi.train(building.getID(), UnitTypes.Protoss_Probe.ordinal());
-					break;
-				}
-			}                                                                       
+			bwapi.train(getOwnUnitID(UnitTypes.Protoss_Nexus), UnitTypes.Protoss_Probe.ordinal());
 		} else if (action.equals("algorithm.buildSupply")) {
 			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Pylon);
-			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Pylon.ordinal());
+			bwapi.build(getOwnUnitID(UnitTypes.Protoss_Probe), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Pylon.ordinal());
 		} else if (action.equals("algorithm.buildGateway")) {
 			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Gateway);
-			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Gateway.ordinal());
-		} else if (action.equals("algorithm.buildCybercore")) {
-			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Cybernetics_Core);
-			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Cybernetics_Core.ordinal());
+			bwapi.build(getOwnUnitID(UnitTypes.Protoss_Probe), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Gateway.ordinal());
+		} else if (action.equals("algorithm.trainZealot")) {
+			bwapi.train(getOwnUnitID(UnitTypes.Protoss_Gateway), UnitTypes.Protoss_Zealot.ordinal());
+		} else if (action.equals("algorithm.attack")) {
+			for (Unit unit : bwapi.getMyUnits()) {
+				if (unit.getTypeID() == UnitTypes.Protoss_Zealot.ordinal() && unit.isIdle()) {
+					for (Unit enemy : bwapi.getEnemyUnits()) {
+						bwapi.attack(unit.getID(), enemy.getX(), enemy.getY());
+						break;
+					}
+				}
+			}
 		}
 	}
 	
-	private Unit getProbeToBuild() {
+	private int getOwnUnitID(UnitType.UnitTypes type) {
 		for(Unit unit : bwapi.getMyUnits()) {
-			if(unit.getTypeID() == UnitTypes.Protoss_Probe.ordinal()) {
-				return unit;
+			if(unit.getTypeID() == type.ordinal() && !unit.isTraining()) {
+				return unit.getID();
 			}
 		}
-		return null;
+		return -1;
 	}
 	
 	private TilePosition findPlaceToBuild(UnitTypes unit) {
@@ -300,15 +300,13 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 	@Override
 	public Object getModuleContent(Object... params){
 		if (!matchRunning) {
-			return new BufferedImage(10, 10, BufferedImage.TYPE_4BYTE_ABGR);
+			return new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
 		}
 
 		int height = bwapi.getMap().getHeight() * MINIMAP_SCALE;
 		int width = bwapi.getMap().getWidth() * MINIMAP_SCALE;
-		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage img = new BufferedImage(bgImage.getColorModel(), bgImage.copyData(null), false, null);
 		Graphics2D g2d = img.createGraphics();
-		g2d.setColor(Color.black);
-		g2d.fillRect(0, 0, width, height);
 
 		g2d.setColor(Color.blue);
 		for (Unit unit: bwapi.getMyUnits()) {
@@ -323,21 +321,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 			g2d.drawRect(unit.getX() * MINIMAP_SCALE/32, unit.getY() * MINIMAP_SCALE/32, 1, 1);
 		}
 		
-		g2d.setColor(Color.gray);
-		for(Region r: bwapi.getMap().getRegions()) {
-			int coordinates[] = r.getCoordinates();
-			for (int i=2; i<coordinates.length/2; i+=2) {
-				g2d.drawLine(coordinates[i-2]*MINIMAP_SCALE/32, coordinates[i-1]*MINIMAP_SCALE/32, coordinates[i]*MINIMAP_SCALE/32, coordinates[i+1]*MINIMAP_SCALE/32);
-			}
-		}
 
-		g2d.setColor(Color.yellow);
-		for(ChokePoint c: bwapi.getMap().getChokePoints()) {
-			int r = (int) c.getRadius() * MINIMAP_SCALE / 32;
-			int x = c.getCenterX() * MINIMAP_SCALE / 32 - r/2;
-			int y = c.getCenterY() * MINIMAP_SCALE / 32 - r/2;
-			g2d.drawOval(x, y, r, r);
-		}
 
 		return img;
 	}
@@ -357,6 +341,32 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 		bwapi.setGameSpeed(0);
 		bwapi.loadMapData(true);
 		buildingPlacer = new BuildingPlacer(bwapi);
+
+		// Create the background of the env image
+		int height = bwapi.getMap().getHeight() * MINIMAP_SCALE;
+		int width = bwapi.getMap().getWidth() * MINIMAP_SCALE;
+		bgImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2d = bgImage.createGraphics();
+		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, width, height);
+		g2d.setColor(Color.gray);
+		for(Region r: bwapi.getMap().getRegions()) {
+			int coordinates[] = r.getCoordinates();
+			for (int i=2; i<coordinates.length; i+=2) {
+				g2d.drawLine(coordinates[i-2]*MINIMAP_SCALE/32, coordinates[i-1]*MINIMAP_SCALE/32, coordinates[i]*MINIMAP_SCALE/32, coordinates[i+1]*MINIMAP_SCALE/32);
+			}
+			// Draw the last line
+			g2d.drawLine(coordinates[0]*MINIMAP_SCALE/32, coordinates[1]*MINIMAP_SCALE/32, coordinates[coordinates.length-2]*MINIMAP_SCALE/32, coordinates[coordinates.length-1]*MINIMAP_SCALE/32);
+		}
+
+		g2d.setColor(Color.yellow);
+		for(ChokePoint c: bwapi.getMap().getChokePoints()) {
+			int r = (int) c.getRadius() * MINIMAP_SCALE / 32;
+			int x = c.getCenterX() * MINIMAP_SCALE / 32 - r/2;
+			int y = c.getCenterY() * MINIMAP_SCALE / 32 - r/2;
+			g2d.drawOval(x, y, r, r);
+		}
+		
 		matchRunning = true;
 	}
 

@@ -60,7 +60,7 @@ public class UnsaturatedResourcesFeatureDetector extends BasicDetectionAlgorithm
     				workerCount += 1;
     			}
     		}
-    		if(workerCount < (mineralCount *3)) return 1;
+    		if(workerCount < (mineralCount *2)) return 1;
     	}
     	
 		return 0;

@@ -123,6 +123,18 @@
 			<associatedmodule>SensoryMemory</associatedmodule>
 			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
 		</task>
+		<task name="IdleProductionDetectorTask">
+			<class>com.iskrembilen.jantu.featuredetectors.IdleProductionFeatureDetector</class>
+			<ticksperrun>5</ticksperrun>
+			<associatedmodule>SensoryMemory</associatedmodule>
+			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
+		</task>
+		<task name="BuildOrderDetectorTask">
+			<class>com.iskrembilen.jantu.featuredetectors.BuildOrderFeatureDetector</class>
+			<ticksperrun>5</ticksperrun>
+			<associatedmodule>SensoryMemory</associatedmodule>
+			<associatedmodule>PerceptualAssociativeMemory</associatedmodule>
+		</task>
 		
 		<task name="BasicAttentionCodelet">
 			<class>edu.memphis.ccrg.lida.attentioncodelets.BasicAttentionCodelet

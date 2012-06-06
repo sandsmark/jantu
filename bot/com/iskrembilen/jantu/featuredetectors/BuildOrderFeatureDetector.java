@@ -12,7 +12,8 @@ import edu.memphis.ccrg.lida.pam.PamLinkable;
 import edu.memphis.ccrg.lida.pam.tasks.BasicDetectionAlgorithm;
 import edu.memphis.ccrg.lida.pam.tasks.MultipleDetectionAlgorithm;
 
-public class StructureFeatureDetector extends MultipleDetectionAlgorithm {
+public class BuildOrderFeatureDetector extends MultipleDetectionAlgorithm {
+	private static final int NR_WANTED_GATEWAYS = 3;
 	private Map<String, Object> smParams = new HashMap<String, Object>();
 
 	@Override
@@ -28,12 +29,13 @@ public class StructureFeatureDetector extends MultipleDetectionAlgorithm {
 	@Override
 	public void detectLinkables() {
 		Set<Unit> buildings = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
+		int gatewayCount = 0;
 		for(Unit building : buildings) {
 			int type = building.getTypeID();
-			if(type == UnitTypes.Protoss_Nexus.ordinal()) 
-				doExcitate(this.pamNodeMap.get("nexus"), 0.5);				
-			else if(type == UnitTypes.Protoss_Gateway.ordinal())
-				doExcitate(this.pamNodeMap.get("gateway"), 0.5);
+			if(type == UnitTypes.Protoss_Gateway.ordinal())
+				gatewayCount += 1;
 		}
+		if(gatewayCount < NR_WANTED_GATEWAYS)
+			doExcitate(this.pamNodeMap.get("needGateway"), 0.5);
 	}
 }

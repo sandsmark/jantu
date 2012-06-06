@@ -1,4 +1,5 @@
 package com.iskrembilen.jantu.util;
+
 import java.awt.Point;
 
 public class Position 
