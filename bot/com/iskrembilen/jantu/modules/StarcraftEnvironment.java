@@ -17,13 +17,10 @@ import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import sun.swing.SwingUtilities2.Section;
 
 import com.iskrembilen.jantu.BWAPIEventListener;
 import com.iskrembilen.jantu.JNIBWAPI;
@@ -257,23 +254,27 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 			}                                                                       
 		} else if (action.equals("algorithm.buildSupply")) {
 			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Pylon);
-			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Pylon.ordinal());
+			bwapi.build(getOwnUnitID(UnitTypes.Protoss_Probe), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Pylon.ordinal());
 		} else if (action.equals("algorithm.buildGateway")) {
 			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Gateway);
-			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Gateway.ordinal());
+			bwapi.build(getOwnUnitID(UnitTypes.Protoss_Probe), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Gateway.ordinal());
 		} else if (action.equals("algorithm.buildCybercore")) {
 			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Cybernetics_Core);
-			bwapi.build(getProbeToBuild().getID(), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Cybernetics_Core.ordinal());
+			bwapi.build(getOwnUnitID(UnitTypes.Protoss_Probe), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Cybernetics_Core.ordinal());
+		} else if (action.equals("algorithm.trainZealot")) {
+			bwapi.train(getOwnUnitID(UnitTypes.Protoss_Gateway), UnitTypes.Protoss_Zealot.ordinal());
+		} else if (action.equals("algorithm.trainDragoon")) {
+			bwapi.train(getOwnUnitID(UnitTypes.Protoss_Gateway), UnitTypes.Protoss_Dragoon.ordinal());
 		}
 	}
 	
-	private Unit getProbeToBuild() {
+	private int getOwnUnitID(UnitType.UnitTypes type) {
 		for(Unit unit : bwapi.getMyUnits()) {
-			if(unit.getTypeID() == UnitTypes.Protoss_Probe.ordinal()) {
-				return unit;
+			if(unit.getTypeID() == type.ordinal()) {
+				return unit.getID();
 			}
 		}
-		return null;
+		return -1;
 	}
 	
 	private TilePosition findPlaceToBuild(UnitTypes unit) {

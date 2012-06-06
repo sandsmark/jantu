@@ -19,7 +19,6 @@ import com.iskrembilen.jantu.model.Map;
 import com.iskrembilen.jantu.model.Player;
 import com.iskrembilen.jantu.model.Region;
 import com.iskrembilen.jantu.model.Unit;
-import com.iskrembilen.jantu.modules.StarcraftEnvironment;
 import com.iskrembilen.jantu.types.BulletType;
 import com.iskrembilen.jantu.types.DamageType;
 import com.iskrembilen.jantu.types.ExplosionType;
