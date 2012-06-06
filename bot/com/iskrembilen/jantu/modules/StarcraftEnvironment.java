@@ -245,13 +245,7 @@ public class StarcraftEnvironment extends EnvironmentImpl implements BWAPIEventL
 				}
 			}
 		} else if (action.equals("algorithm.buildWorker")) {
-			for (Unit larva : bwapi.getMyUnits()) {
-			for(Unit building : bwapi.getMyUnits())
-				if (building.getTypeID() == UnitTypes.Protoss_Nexus.ordinal()) {
-					bwapi.train(building.getID(), UnitTypes.Protoss_Probe.ordinal());
-					break;
-				}
-			}                                                                       
+			bwapi.train(getOwnUnitID(UnitTypes.Protoss_Nexus), UnitTypes.Protoss_Probe.ordinal());
 		} else if (action.equals("algorithm.buildSupply")) {
 			TilePosition buildPos = findPlaceToBuild(UnitTypes.Protoss_Pylon);
 			bwapi.build(getOwnUnitID(UnitTypes.Protoss_Probe), buildPos.x(), buildPos.y(), UnitTypes.Protoss_Pylon.ordinal());
