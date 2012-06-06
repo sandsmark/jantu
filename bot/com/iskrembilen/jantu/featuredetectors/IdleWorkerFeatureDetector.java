@@ -23,8 +23,8 @@ public class IdleWorkerFeatureDetector extends BasicDetectionAlgorithm {
 	public double detect() {
 		Set<Unit> units = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
 		for(Unit unit : units) {
-			if (unit.getTypeID() == UnitTypes.Zerg_Drone.ordinal() || unit.getTypeID() == UnitTypes.Protoss_Probe.ordinal() || unit.getTypeID() == UnitTypes.Terran_SCV.ordinal()) {
-				if(unit.isIdle()) {
+			if (unit.getTypeID() == UnitTypes.Protoss_Probe.ordinal()) {
+				if(unit.getOrderID() == 3) {
 					return 1;
 				}
 			}

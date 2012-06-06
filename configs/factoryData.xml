@@ -133,6 +133,15 @@
 			<param name="refractoryPeriod" type="int">50</param>
 			<param name="coalitionDecayStrategy" type="string">coalitionDecay</param>
 		</task>
+		<task name="NeighborhoodAttentionCodelet">
+            <class>edu.memphis.ccrg.lida.attentioncodelets.NeighborhoodAttentionCodelet
+            </class>
+            <ticksperrun>20</ticksperrun>
+            <associatedmodule function="TO_READ_FROM">CurrentSituationalModel</associatedmodule>
+            <associatedmodule function="TO_WRITE_TO">GlobalWorkspace</associatedmodule>
+            <param name="refractoryPeriod" type="int">50</param>
+            <param name="coalitionDecayStrategy" type="string">coalitionDecay</param>
+        </task>
 		<task name="SensoryMemoryBackgroundTask">
 			<class>edu.memphis.ccrg.lida.sensorymemory.SensoryMemoryBackgroundTask
 			</class>
