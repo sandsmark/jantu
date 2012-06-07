@@ -171,7 +171,6 @@ public class BuildingPlacer
 	//Searches outward in a spiral.
 	public TilePosition getBuildLocationNear(TilePosition position, UnitType typ, int buildDist)
 	{
-		System.out.print(typ.getName());
 		int x = position.x();
 		int y = position.y();
 		int length = 1;

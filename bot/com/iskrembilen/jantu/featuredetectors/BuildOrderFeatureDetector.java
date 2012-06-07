@@ -19,7 +19,6 @@ public class BuildOrderFeatureDetector extends MultipleDetectionAlgorithm {
 	@Override
 	public void init() {
 		super.init();
-		smParams.put("mode","buildings");
 	}
 
 	private void doExcitate(PamLinkable linkable, double value) {
@@ -28,6 +27,7 @@ public class BuildOrderFeatureDetector extends MultipleDetectionAlgorithm {
 
 	@Override
 	public void detectLinkables() {
+		smParams.put("mode","buildings");
 		Set<Unit> buildings = (Set<Unit>) sensoryMemory.getSensoryContent("", smParams);
 		int gatewayCount = 0;
 		for(Unit building : buildings) {
@@ -35,7 +35,9 @@ public class BuildOrderFeatureDetector extends MultipleDetectionAlgorithm {
 			if(type == UnitTypes.Protoss_Gateway.ordinal())
 				gatewayCount += 1;
 		}
-		if(gatewayCount < NR_WANTED_GATEWAYS)
+		smParams.put("mode","resources");
+		Resources resources = (Resources) sensoryMemory.getSensoryContent("", smParams);
+		if(gatewayCount < NR_WANTED_GATEWAYS | resources.getMinerals() > 500)
 			doExcitate(this.pamNodeMap.get("needGateway"), 0.5);
 	}
 }
